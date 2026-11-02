@@ -1,3 +1,4 @@
+
 export default async function handler(req, res) {
   const allowedOrigins = [
     "https://en.cocukgiyimmerkezi.com",
@@ -18,7 +19,9 @@ export default async function handler(req, res) {
   }
 
   if (req.method !== "GET") {
-    return res.status(405).json({ hata: "Method not allowed" });
+    return res.status(405).json({
+      hata: "Method not allowed"
+    });
   }
 
   try {
@@ -45,7 +48,10 @@ export default async function handler(req, res) {
   } catch (error) {
     return res.status(502).json({
       hata: "PTT bağlantı hatası",
-      detay: error.message
+      detay: error.message,
+      neden: error.cause?.message || null,
+      kod: error.cause?.code || null,
+      hostname: error.cause?.hostname || null
     });
   }
 }
